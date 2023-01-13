@@ -20,4 +20,6 @@ public interface StudyService {
 
 	public int fileUpload(MultipartFile fName);
 
+	public void getCalendar();
+
 }

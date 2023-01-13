@@ -30,7 +30,7 @@
   <div class="col-sm-12" style="margin:30px 0px;font-size:1.4em;text-align:center">
     <button class="btn btn-secondary btn-sm" onclick="location.href='${ctp}/study/calendar?yy=${yy-1}&mm=${mm}'" title="이전년도">◁◁</button>
     <button class="btn btn-secondary btn-sm" onclick="location.href='${ctp}/study/calendar?yy=${yy}&mm=${mm-1}'" title="이전월">◀</button>
-    &nbsp; <font size="5">${yy}년 ${mm+1}</font> &nbsp;
+    &nbsp; <font size="5">${yy}년 ${mm+1}월</font> &nbsp;
     <button class="btn btn-secondary btn-sm" onclick="location.href='${ctp}/study/calendar?yy=${yy}&mm=${mm+1}'" title="다음월">▶</button>
     <button class="btn btn-secondary btn-sm" onclick="location.href='${ctp}/study/calendar?yy=${yy+1}&mm=${mm}'" title="다음년도">▷▷</button>
     &nbsp; &nbsp;
