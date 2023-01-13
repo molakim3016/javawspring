@@ -7,7 +7,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>memJoin.jsp</title>
-  <jsp:include page="/WEB-INF/views/include/bs4.jsp"></jsp:include>
+  <jsp:include page="/WEB-INF/views/include/bs4.jsp" />
   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
   <script src="${ctp}/js/woo.js"></script>
   <script>
@@ -21,7 +21,7 @@
     	// 폼의 유효성 검사~~~~
     	let regMid = /^[a-z0-9_]{4,20}$/;
       // let regPwd = /(?=.*[a-zA-Z])(?=.*?[#?!@$%^&*-]).{4,24}/;
-      let regPwd = /(?=.*[0-9a-zA-Z]).{4,24}/;
+      let regPwd = /(?=.*[0-9a-zA-Z]).{4,20}$/;
       let regNickName = /^[가-힣]+$/;
       let regName = /^[가-힣a-zA-Z]+$/;
       let regEmail =/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
@@ -115,7 +115,7 @@
   		
   		// 전송전에 파일에 관한 사항체크...(회원사진의 내역이 비었으면 noimage를 hidden필드인 photo필드에 담아서 전송한다.)
   		if(fName.trim() == "") {
-  			myform.photo.value = "noimage.jpg"
+  			myform.photo.value = "noimage.jpg";
 				submitFlag = 1;
   		}
   		else {
@@ -130,7 +130,7 @@
   				return false;
   			}
   			else if(fileSize > maxSize) {
-  				alert("업로드 파일의 크기는 2MByte를 초과할수 없습니다.");
+  				alert("업로드 파일의 크기는 1MByte를 초과할수 없습니다.");
   				return false;
   			}
     		submitFlag = 1;
@@ -169,43 +169,42 @@
     	}
     	
     	$.ajax({
-    		type : "post",
-    		url : "${ctp}/member/memberIdCheck",
-    		data : {mid:mid},
-    		success:function(res){
-    			if(res=="1") {
+    		type  : "post",
+    		url   : "${ctp}/member/memberIdCheck",
+    		data  : {mid : mid},
+    		success:function(res) {
+    			if(res == "1") {
     				alert("이미 사용중인 아이디 입니다.");
     				$("#mid").focus();
     			}
     			else {
-    				alert("사용 가능한 아이디입니다.");
+    				alert("사용 가능한 아이디 입니다.");
     				idCheckSw = 1;
     			}
     		},
     		error : function() {
-					alert("전송오류!!");
-				}
-    		
+    			alert("전송오류!");
+    		}
     	});
     }
     
     // nickName 중복체크
-    function nickCheck() {
+    function nickNameCheck() {
     	let nickName = myform.nickName.value;
-    	if(nickName == "") {
-    		alert("닉네임을 입력하세요!");
+    	if(nickName.trim() == "" || nickName.length<1 || nickName.length>=20) {
+    		alert("닉네임을 확인하세요!(아이디는 1~20자 이내)");
     		myform.nickName.focus();
     		return false;
     	}
     	
     	$.ajax({
-    		type : "post",
-    		url : "${ctp}/member/memberNickNameCheck",
-    		data : {nickName:nickName},
-    		success:function(res){
-    			if(res=="1") {
+    		type  : "post",
+    		url   : "${ctp}/member/memberNickNameCheck",
+    		data  : {nickName : nickName},
+    		success:function(res) {
+    			if(res == "1") {
     				alert("이미 사용중인 닉네임 입니다.");
-    				$("#nickName").focus();
+    				$("#mid").focus();
     			}
     			else {
     				alert("사용 가능한 닉네임 입니다.");
@@ -213,19 +212,18 @@
     			}
     		},
     		error : function() {
-					alert("전송오류!!");
-				}
-    		
+    			alert("전송오류!");
+    		}
     	});
     }
   </script>
 </head>
 <body>
-<jsp:include page="/WEB-INF/views/include/nav.jsp"/>
-<jsp:include page="/WEB-INF/views/include/slide2.jsp"/>
+<jsp:include page="/WEB-INF/views/include/nav.jsp" />
+<jsp:include page="/WEB-INF/views/include/slide2.jsp" />
 <div class="container" style="padding:30px">
-  <!-- <form name="myform" method="post" class="was-validated" enctype="multipart/form-data"> -->
-  <form name="myform" method="post" class="was-validated">
+  <form name="myform" method="post" class="was-validated" enctype="multipart/form-data">
+  <!-- <form name="myform" method="post" class="was-validated"> -->
     <h2>회 원 가 입</h2>
     <br/>
     <div class="form-group">
@@ -237,7 +235,7 @@
       <input type="password" class="form-control" id="pwd" placeholder="비밀번호를 입력하세요." name="pwd" required />
     </div>
     <div class="form-group">
-      <label for="nickName">닉네임 : &nbsp; &nbsp;<input type="button" value="닉네임 중복체크" id="nickNameBtn" class="btn btn-secondary btn-sm" onclick="nickCheck()"/></label>
+      <label for="nickName">닉네임 : &nbsp; &nbsp;<input type="button" value="닉네임 중복체크" id="nickNameBtn" class="btn btn-secondary btn-sm" onclick="nickNameCheck()"/></label>
       <input type="text" class="form-control" id="nickName" placeholder="별명을 입력하세요." name="nickName" required />
     </div>
     <div class="form-group">

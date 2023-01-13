@@ -2,18 +2,22 @@ package com.spring.javawspring.service;
 
 import java.util.ArrayList;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.spring.javawspring.vo.GuestVO;
 
 public interface StudyService {
 
-	String[] getCityStringArr(String dodo);
+	public String[] getCityStringArr(String dodo);
 
-	ArrayList<String> getCityArrayListArr(String dodo);
+	public ArrayList<String> getCityArrayListArr(String dodo);
 
-	GuestVO getGuestMid(String mid);
+	public GuestVO getGuestMid(String mid);
 
-	ArrayList<GuestVO> getGuestNames(String mid);
+	public ArrayList<GuestVO> getGuestNames(String mid);
 
-	ArrayList<GuestVO> getGuestCategory(String mid, String category);
+	public ArrayList<GuestVO> getGuestCategory(String mid, String category);
+
+	public int fileUpload(MultipartFile fName);
 
 }

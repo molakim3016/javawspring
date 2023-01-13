@@ -1,9 +1,17 @@
 package com.spring.javawspring.service;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.javawspring.dao.StudyDAO;
 import com.spring.javawspring.vo.GuestVO;
@@ -139,5 +147,33 @@ public class StudyServiceImpl implements StudyService {
 	@Override
 	public ArrayList<GuestVO> getGuestCategory(String mid, String category) {
 		return studyDAO.getGuestCategory(mid,category);
+	}
+
+	@Override
+	public int fileUpload(MultipartFile fName) {
+		int res =0;
+		try {
+			UUID uid = UUID.randomUUID();
+			String oFileName = fName.getOriginalFilename();
+			String saveFileName = uid + "_" + oFileName;
+			
+			writeFile(fName,saveFileName);
+			res=1;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	public void writeFile(MultipartFile fName, String saveFileName) throws IOException {
+		byte[] data = fName.getBytes();
+		
+		HttpServletRequest request  = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
+		//request.getRealPath("/resources/pds/temp/");
+		String realPath = request.getSession().getServletContext().getRealPath("/resources/pds/temp/");
+		
+		FileOutputStream fos = new FileOutputStream(realPath + saveFileName);
+		fos.write(data);
+		fos.close();
 	}
 }

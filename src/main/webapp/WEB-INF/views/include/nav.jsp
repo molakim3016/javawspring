@@ -8,10 +8,7 @@
 		let ans = confirm('정말로 탈퇴하시겠습니까?');
 		if(!ans) return false;
 		
-		$.ajax({
-			type : "post",
-			
-		});
+		location.href='${ctp}/member/memberDelete';
 	}
 </script>
 <!-- Navbar -->
@@ -21,7 +18,7 @@
     <a href="http://192.168.50.118:9090/javawspring/" class="w3-bar-item w3-button w3-padding-large">HOME</a>
     <a href="${ctp}/guest/guestList" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Guest</a>
     <c:if test="${sLevel <=4}">
-	    <a href="${ctp}/guest/boardList" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Board</a>
+	    <a href="${ctp}/board/boardList" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Board</a>
 	    <a href="${ctp}/pds/pdsList" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Pds</a>
 	    <div class="w3-dropdown-hover w3-hide-small">
 	      <button class="w3-padding-large w3-button" title="More">Study1 <i class="fa fa-caret-down"></i></button>     
@@ -31,6 +28,7 @@
 	        <a href="${ctp}/study/password/bCryptPassword" class="w3-bar-item w3-button">암호화연습3</a>
 	        <a href="${ctp}/study/ajax/ajaxMenu" class="w3-bar-item w3-button">AJax연습</a>
 	        <a href="${ctp}/study/mail/mailForm" class="w3-bar-item w3-button">메일연습</a>
+	        <a href="${ctp}/study/fileUpload/fileUploadForm" class="w3-bar-item w3-button">파일업로드</a>
 	        <a href="${ctp}/study/uuid/uuidForm" class="w3-bar-item w3-button">UUID</a>
 	        <a href="#" class="w3-bar-item w3-button">인터넷달력</a>
 	      </div>
@@ -50,12 +48,11 @@
 	      <div class="w3-dropdown-content w3-bar-block w3-card-4">
 	        <a href="${ctp}/member/memberMain" class="w3-bar-item w3-button">회원메인화면</a>
 	        <a href="#" class="w3-bar-item w3-button">웹메세지</a>
-	        <c:if test="${sLevel <=3}">
-	       		<a href="${ctp}/member/memberList" class="w3-bar-item w3-button">회원리스트</a>
-	        </c:if>
-	        <a href="#" class="w3-bar-item w3-button">정보수정</a>
+	       	<a href="${ctp}/member/memberList" class="w3-bar-item w3-button">회원리스트</a>
+	        <a href="#" class="w3-bar-item w3-button">회원정보수정</a>
+	        <a href="${ctp}/member/memberPwdUpdate" class="w3-bar-item w3-button">회원비밀번호수정</a>
 	        <a href="javascript:userDel()" class="w3-bar-item w3-button">회원탈퇴</a>
-	        <a href="#" class="w3-bar-item w3-button">관리자메뉴</a>
+	        <a href="${ctp}/admin/adminMain" class="w3-bar-item w3-button">관리자메뉴</a>
 	      </div>
 	    </div>
     </c:if>

@@ -1,12 +1,16 @@
 package com.spring.javawspring.service;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.spring.javawspring.common.JavawspringProvide;
 import com.spring.javawspring.dao.MemberDAO;
 import com.spring.javawspring.vo.MemberVO;
 
@@ -27,8 +31,29 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int setMemberJoinOk(MemberVO vo) {
-		return memberDAO.setMemberJoinOk(vo);
+	public int setMemberJoinOk(MultipartFile fName, MemberVO vo) {
+		// 업로드된 사진을 서버 파일시스템에 저장시켜준다.
+		int res =0;
+		try {
+			String oFileName = fName.getOriginalFilename();
+			if(oFileName.equals("")) {
+				vo.setPhoto("noimages.jpg");
+			}
+			else {
+				UUID uid = UUID.randomUUID();
+				String saveFileName = uid + "_" + oFileName;
+				
+				JavawspringProvide ps = new JavawspringProvide();
+				ps.writeFile(fName, saveFileName,"member");
+				vo.setPhoto(saveFileName);
+			}
+			memberDAO.setMemberJoinOk(vo);
+			res=1;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return res;
+		
 	}
 
 	@Override
@@ -58,13 +83,13 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int totRecCnt() {
-		return memberDAO.totRecCnt();
+	public int totRecCnt(String searchString) {
+		return memberDAO.totRecCnt(searchString);
 	}
 
 	@Override
-	public ArrayList<MemberVO> getMemberList(int startIndexNo, int pageSize) {
-		return memberDAO.getMemberList(startIndexNo,pageSize);
+	public ArrayList<MemberVO> getMemberList(int startIndexNo, int pageSize, String mid) {
+		return memberDAO.getMemberList(startIndexNo,pageSize,mid);
 	}
 
 	@Override
@@ -74,7 +99,21 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public ArrayList<MemberVO> getTermMemberList(int startIndexNo, int pageSize, String mid) {
-		// TODO Auto-generated method stub
 		return memberDAO.getTermMemberList(startIndexNo, pageSize, mid);
+	}
+
+	@Override
+	public void setMemberPwdUpdate(String mid, String pwd) {
+		memberDAO.setMemberPwdUpdate(mid, pwd);
+	}
+
+	@Override
+	public void setMemberDelete(String mid) {
+		memberDAO.setMemberDelete(mid);
+	}
+
+	@Override
+	public String getMemberIdSearch(String name, String email) {
+		return memberDAO.getMemberIdSearch(name,email);
 	}
 }

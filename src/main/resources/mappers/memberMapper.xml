@@ -11,11 +11,11 @@
   </select>
   
   <select id="totRecCnt" resultType="int">
-  	select count(*) from member2;
+  	select count(*) from member2 where mid like concat('%',#{searchString},'%');
   </select>
   
   <select id="getMemberList" resultType="com.spring.javawspring.vo.MemberVO">
-  	select * from member2 order by idx desc limit #{startIndexNo},#{pageSize};
+  	select * from member2 where mid like concat('%',#{mid},'%') order by idx desc limit #{startIndexNo},#{pageSize};
   </select>
   
   <select id="totTermRecCnt" resultType="int">
@@ -42,6 +42,10 @@
   	 select * from member2 <if test="mid != ''">where mid like concat('%',#{mid},'%')</if> order by idx desc limit #{startIndexNo},#{pageSize};
   </select>
   
+  <select id="getMemberIdSearch" resultType="String">
+  	select mid from member2 where name=#{name} and email=#{email};
+  </select>
+  
   
   <!-- 
   <update id="setTodayCntUpdate">
@@ -49,8 +53,16 @@
   </update>
    -->
    
+  <update id="setMemberDelete">
+  	update member2 set userDel='OK' where mid=#{mid}; 
+  </update>
+  
   <update id="setMemTotalUpdate">
   	update member2 set lastDate=now(), todayCnt=#{todayCnt}, visitCnt=visitCnt+1, point = #{nowTodayPoint} where mid=#{mid}; 
+  </update>
+  
+  <update id="setMemberPwdUpdate">
+  	update member2 set pwd = #{pwd} where mid=#{mid}; 
   </update>
   
   

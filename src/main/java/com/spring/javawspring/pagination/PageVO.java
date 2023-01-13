@@ -6,7 +6,7 @@ import lombok.Data;
 public class PageVO {
 	private int pag;
 	private int pageSize;
-	private int totReCnt;
+	private int totRecCnt;
 	private int totPage;
 	private int startIndexNo;
 	private int curScrStartNo;
